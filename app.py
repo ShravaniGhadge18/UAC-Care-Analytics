@@ -9,8 +9,10 @@ st.set_page_config(page_title="UAC System Analytics", layout="wide")
 
 # --- Sidebar Theme & Context ---
 # Uses the direct web link so you don't have to upload anything!
-image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/US-DeptOfHealthHumanServices-Logo.svg/512px-US-DeptOfHealthHumanServices-Logo.svg.png"
-st.sidebar.image(image_url, caption="Department of Health & Human Services", use_column_width=True)
+# --- Sidebar Theme & Context ---
+# Using a text-based icon guarantees it will never break on Streamlit Cloud
+st.sidebar.markdown("## 🏛️ U.S. Dept of HHS")
+st.sidebar.markdown("*UAC Operations Context*")
 st.sidebar.markdown("---")
 
 # --- Load Data (with cashing) ---
