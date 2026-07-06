@@ -8,11 +8,23 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="UAC System Analytics", layout="wide")
 
 # --- Sidebar Theme & Context ---
-# Uses the direct web link so you don't have to upload anything!
 # --- Sidebar Theme & Context ---
-# Using a text-based icon guarantees it will never break on Streamlit Cloud
-st.sidebar.markdown("## 🏛️ U.S. Dept of HHS")
-st.sidebar.markdown("*UAC Operations Context*")
+st.sidebar.header("System Navigation")
+
+# 1. Open-access image URL guaranteed to load on Streamlit Cloud without server blocks
+interactive_image_url = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80"
+
+# 2. HTML code to make the image a clickable interactive element
+st.sidebar.markdown(
+    f'''
+    <a href="https://www.acf.hhs.gov/orr/programs/orr-uac" target="_blank">
+        <img src="{interactive_image_url}" style="width:100%; border-radius:8px; box-shadow: 0px 4px 10px rgba(0,0,0,0.3); transition: transform .2s;">
+    </a>
+    ''',
+    unsafe_allow_html=True
+)
+
+st.sidebar.caption("💡 Click the dashboard image above to open the official HHS UAC Program Portal.")
 st.sidebar.markdown("---")
 
 # --- Load Data (with cashing) ---
