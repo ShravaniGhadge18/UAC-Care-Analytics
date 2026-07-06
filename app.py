@@ -9,8 +9,8 @@ st.set_page_config(page_title="UAC System Analytics", layout="wide")
 
 # --- Sidebar Theme & Context ---
 # Uses the direct web link so you don't have to upload anything!
-image_url = "https://www.fairus.org/sites/default/files/styles/videos_1023x567/public/images/CBP-UAC-children-minors-flickr.jpg.webp?h=55f405d4&itok=ST2_FHHJ"
-st.sidebar.image(image_url, caption="CBP Operations Context", use_column_width=True)
+image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/US-DeptOfHealthHumanServices-Logo.svg/512px-US-DeptOfHealthHumanServices-Logo.svg.png"
+st.sidebar.image(image_url, caption="Department of Health & Human Services", use_column_width=True)
 st.sidebar.markdown("---")
 
 # --- Load Data (with cashing) ---
