@@ -8,16 +8,15 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="UAC System Analytics", layout="wide")
 
 # --- Sidebar Theme & Context ---
-# Add the contextual picture to the top of the sidebar.
-# You must have uploaded 'cbp_photo.jpg' to your GitHub repository first.
-st.sidebar.image("cbp_photo.jpg", caption="CBP Operations Context", use_column_width=True)
+# Uses the direct web link so you don't have to upload anything!
+image_url = "https://www.fairus.org/sites/default/files/styles/videos_1023x567/public/images/CBP-UAC-children-minors-flickr.jpg.webp?h=55f405d4&itok=ST2_FHHJ"
+st.sidebar.image(image_url, caption="CBP Operations Context", use_column_width=True)
 st.sidebar.markdown("---")
 
 # --- Load Data (with cashing) ---
 @st.cache_data
 def load_data():
     # Load the raw cleaned data from the repository
-    # Make sure 'Cleaned_UAC_Data.csv' is in your repository.
     data = pd.read_csv("Cleaned_UAC_Data.csv", parse_dates=["Date"])
     
     # Calculate all metrics securely inside Streamlit
@@ -37,10 +36,6 @@ df = load_data()
 # --- Main Page Top Section ---
 st.title("System Capacity & Care Load Analytics")
 st.markdown("Monitoring framework for the Unaccompanied Alien Children (UAC) care pipeline.")
-
-# Adding the new related image to the top of the main page for balance.
-# You must download the image I generated and upload it as 'facility_interior_v2.jpg' to GitHub.
-st.image("facility_interior_v2.jpg", caption="Optimistic view of modern HHS UAC Program facility", use_column_width=True)
 st.markdown("---")
 
 # --- Sidebar Controls ---
@@ -85,14 +80,12 @@ st.markdown("---")
 
 # --- Interactive Charts (Plotly) ---
 st.markdown("### System Load Overview")
-# page config layout="wide" makes these charts span the full screen
 fig_load = px.line(filtered_df, x="Date", y=["Children in CBP custody", "Children in HHS Care", "Total System Load"], 
                    title="Care Load Across Facilities Over Time",
                    labels={"value": "Number of Children", "variable": "Custody Type"})
 st.plotly_chart(fig_load, use_container_width=True)
 
 st.markdown("### Net Intake Pressure")
-# Create a bar chart where color depends on value (Red for positive/strain, Blue for negative/relief)
 fig_net = px.bar(filtered_df, x="Date", y="Net Daily Intake",
                  color="Net Daily Intake",
                  color_continuous_scale=px.colors.diverging.RdBu_r,
