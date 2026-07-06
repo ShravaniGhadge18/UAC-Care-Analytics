@@ -4,7 +4,16 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # --- Page Configuration ---
+# Must be the very first Streamlit command!
 st.set_page_config(page_title="UAC System Analytics", layout="wide")
+
+# --- Sidebar Theme & Context ---
+# Adds the official contextual photo to the sidebar
+image_url = "https://www.fairus.org/sites/default/files/styles/videos_1023x567/public/images/CBP-UAC-children-minors-flickr.jpg.webp?h=55f405d4&itok=ST2_FHHJ"
+st.sidebar.image(image_url, caption="CBP Operations Context", use_column_width=True)
+st.sidebar.markdown("---")
+
+# --- Main Page Headers ---
 st.title("System Capacity & Care Load Analytics")
 st.markdown("Monitoring framework for the Unaccompanied Alien Children (UAC) care pipeline.")
 
@@ -26,7 +35,6 @@ def load_data():
     
     return data
 
-# THIS IS THE CRITICAL LINE THAT WAS MISSING!
 df = load_data()
 
 # --- Sidebar Controls ---
@@ -37,6 +45,17 @@ end_date = st.sidebar.date_input("End Date", df['Date'].max())
 # Filter the dataframe based on user dates
 mask = (df['Date'] >= pd.to_datetime(start_date)) & (df['Date'] <= pd.to_datetime(end_date))
 filtered_df = df.loc[mask]
+
+# --- Export Data (Sidebar) ---
+st.sidebar.markdown("---")
+st.sidebar.subheader("Export Data")
+csv = filtered_df.to_csv(index=False).encode('utf-8')
+st.sidebar.download_button(
+    label="Download Filtered Data (CSV)",
+    data=csv,
+    file_name='uac_filtered_data.csv',
+    mime='text/csv'
+)
 
 # Get the most recent day's data for the KPI cards
 latest_data = filtered_df.iloc[-1]
@@ -72,3 +91,9 @@ fig_net = px.bar(filtered_df, x="Date", y="Net Daily Intake",
                  color_continuous_scale=px.colors.diverging.RdBu_r,
                  title="Daily Net Intake (Transfers into HHS minus Discharges)")
 st.plotly_chart(fig_net, use_container_width=True)
+
+# --- View Raw Data Expander ---
+st.markdown("---")
+with st.expander("View Raw Filtered Data"):
+    st.write("This table displays the daily metrics for the exact date range you selected above.")
+    st.dataframe(filtered_df, use_container_width=True)
